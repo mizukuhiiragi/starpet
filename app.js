@@ -500,10 +500,17 @@ function renderGallery() {
 
 btnBackFromGallery.addEventListener('click', actionToggleGallery);
 
-// ボタンイベントリスナー
-btnA.addEventListener('click', actionFeed);
-btnB.addEventListener('click', actionTeaParty);
-btnC.addEventListener('click', actionToggleGallery);
+// ボタンイベントリスナー (スマホでも即時反応するように pointerdown 併用)
+function bindButton(btn, handler) {
+  btn.addEventListener('click', (e) => {
+    e.preventDefault();
+    handler();
+  });
+}
+
+bindButton(btnA, actionFeed);
+bindButton(btnB, actionTeaParty);
+bindButton(btnC, actionToggleGallery);
 
 // 音声トグル
 btnSound.addEventListener('click', () => {

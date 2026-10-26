@@ -43,6 +43,7 @@ body {
   background-size: 380px 380px;
   opacity: 0.5;
   z-index: 0;
+  pointer-events: none;
 }
 
 .device-container {
@@ -295,6 +296,8 @@ body {
   gap: 4px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.08);
   transition: all 0.1s ease;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
 }
 
 .control-btn:active {
