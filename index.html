@@ -3,31 +3,33 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>StarPet (星の子) — レトロたまごっち × Stellar Soroban</title>
+  <title>StarPet (星の子) — レトロドット液晶 × Stellar Soroban</title>
   <link rel="stylesheet" href="style.css">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=DotGothic16&family=Press+Start+2P&family=Yuji+Boku&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=DotGothic16&family=Press+Start+2P&display=swap" rel="stylesheet">
 </head>
 <body>
   <div class="stars-bg"></div>
 
-  <main class="game-wrapper">
-    <!-- キーホルダーチェーン -->
-    <div class="keychain-hole">
-      <div class="chain-ring"></div>
-      <div class="chain-link"></div>
-    </div>
+  <main class="device-container">
+    <!-- シックなレトロ・サイバー液晶端末 -->
+    <div class="pixel-terminal">
+      <!-- 端末ヘッダー -->
+      <header class="terminal-header">
+        <div class="terminal-title">
+          <span class="status-dot"></span>
+          <span class="title-text">STAR-PET // OBSERVATORY v1.0</span>
+        </div>
+        <div class="terminal-network">STELLAR SOROBAN</div>
+      </header>
 
-    <!-- たまごっち本体シェル -->
-    <div class="tamagotchi-shell">
-      <div class="shell-brand">
-        <span class="brand-sub">SOROBAN POCKET PET</span>
-        <h1 class="brand-title">⭐ StarPet ⭐</h1>
-      </div>
+      <!-- メインLCD液晶画面 -->
+      <div class="lcd-monitor">
+        <div class="scanlines"></div>
+        <div class="crt-glow"></div>
 
-      <!-- LCD 液晶スクリーン枠 -->
-      <div class="screen-frame">
+        <!-- 状態インジケーター -->
         <div class="screen-header-icons">
           <span class="icon-indicator" id="ind-food" title="おなか">🍙</span>
           <span class="icon-indicator" id="ind-tea" title="お茶会">☕</span>
@@ -35,102 +37,91 @@
           <span class="icon-indicator" id="ind-star" title="星の数">⭐</span>
         </div>
 
-        <!-- ドット液晶ディスプレイ -->
-        <div class="lcd-screen" id="lcd-screen">
-          <div class="scanlines"></div>
+        <!-- メインペット画面 -->
+        <div class="lcd-view" id="view-pet">
+          <div class="lcd-status-bar">
+            <span id="txt-generation">GEN: 1st</span>
+            <span id="txt-stars">⭐ × 12</span>
+          </div>
+
+          <div class="pet-stage">
+            <canvas id="pet-canvas" width="64" height="64"></canvas>
+            <div class="falling-food" id="falling-food"></div>
+            <div class="guest-pet" id="guest-pet"></div>
+            <div class="speech-bubble" id="speech-bubble">ピピッ！</div>
+          </div>
+
+          <div class="lcd-gauges">
+            <div class="gauge-row">
+              <span>HUNGER:</span>
+              <div class="gauge-bar"><div class="gauge-fill" id="gauge-hunger" style="width: 70%;"></div></div>
+            </div>
+            <div class="gauge-row">
+              <span>GROWTH:</span>
+              <div class="gauge-bar"><div class="gauge-fill gauge-growth" id="gauge-growth" style="width: 35%;"></div></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 星座NFT 旅立ち儀式画面（Canvas手書きデコ） -->
+        <div class="lcd-view hidden" id="view-ascend">
+          <div class="ascend-title">🌌 旅立ちの星座式 🌌</div>
+          <p class="ascend-desc">寿命を迎えた星の子に、名前や感謝を刻んで夜空へ還しましょう。</p>
           
-          <!-- メインペット画面 -->
-          <div class="lcd-view" id="view-pet">
-            <div class="lcd-status-bar">
-              <span id="txt-generation">GEN: 1st</span>
-              <span id="txt-stars">⭐ × 12</span>
-            </div>
+          <div class="canvas-container">
+            <canvas id="nft-canvas" width="300" height="380"></canvas>
+          </div>
 
-            <div class="pet-stage">
-              <!-- 星の子ドット絵キャンバス -->
-              <canvas id="pet-canvas" width="64" height="64"></canvas>
-              <div class="falling-food" id="falling-food"></div>
-              <div class="guest-pet" id="guest-pet"></div>
-              <div class="speech-bubble" id="speech-bubble">ピピッ！</div>
+          <div class="canvas-tools">
+            <div class="color-picker">
+              <button class="color-btn active" data-color="#ffd166" style="background:#ffd166;" title="金"></button>
+              <button class="color-btn" data-color="#06d6a0" style="background:#06d6a0;" title="翡翠"></button>
+              <button class="color-btn" data-color="#38bdf8" style="background:#38bdf8;" title="青"></button>
+              <button class="color-btn" data-color="#ff70a6" style="background:#ff70a6;" title="桃"></button>
+              <button class="color-btn" data-color="#ffffff" style="background:#ffffff;" title="白"></button>
             </div>
-
-            <div class="lcd-gauges">
-              <div class="gauge-row">
-                <span>HUNGER:</span>
-                <div class="gauge-bar"><div class="gauge-fill" id="gauge-hunger" style="width: 70%;"></div></div>
-              </div>
-              <div class="gauge-row">
-                <span>GROWTH:</span>
-                <div class="gauge-bar"><div class="gauge-fill gauge-growth" id="gauge-growth" style="width: 35%;"></div></div>
-              </div>
+            <div class="action-buttons">
+              <button class="tool-btn" id="btn-stamp-star">⭐ スタンプ</button>
+              <button class="tool-btn" id="btn-clear-canvas">↺ リセット</button>
             </div>
           </div>
 
-          <!-- 星座NFT 旅立ち儀式画面（Canvas手書きデコ） -->
-          <div class="lcd-view hidden" id="view-ascend">
-            <div class="ascend-title">🌌 旅立ちの星座式 🌌</div>
-            <p class="ascend-desc">星の子が寿命を迎えました。指やペンで名前や感謝の言葉を刻んで、夜空へ還しましょう。</p>
-            
-            <div class="canvas-container">
-              <canvas id="nft-canvas" width="300" height="380"></canvas>
-            </div>
-
-            <div class="canvas-tools">
-              <div class="color-picker">
-                <button class="color-btn active" data-color="#ffd166" style="background:#ffd166;" title="星の金"></button>
-                <button class="color-btn" data-color="#06d6a0" style="background:#06d6a0;" title="翡翠"></button>
-                <button class="color-btn" data-color="#118ab2" style="background:#118ab2;" title="ステラブルー"></button>
-                <button class="color-btn" data-color="#ef476f" style="background:#ef476f;" title="桜ピンク"></button>
-                <button class="color-btn" data-color="#ffffff" style="background:#ffffff;" title="純白"></button>
-              </div>
-              <div class="action-buttons">
-                <button class="tool-btn" id="btn-stamp-star">⭐ スタンプ</button>
-                <button class="tool-btn" id="btn-clear-canvas">↺ リセット</button>
-              </div>
-            </div>
-
-            <div class="mint-action">
-              <button class="btn-mint" id="btn-mint-nft">
-                ✨ 集めた星で空に還す (0.00001 XLM)
-              </button>
-            </div>
-          </div>
-
-          <!-- 星座美術館（ギャラリー）画面 -->
-          <div class="lcd-view hidden" id="view-gallery">
-            <div class="gallery-title">🏛️ 星の美術館 (NFTs)</div>
-            <div class="gallery-grid" id="gallery-grid">
-              <!-- ミントされた星座NFTが並ぶ -->
-              <div class="empty-gallery">まだ夜空に還った星の子はいません。大切に育ててね！</div>
-            </div>
-            <button class="btn-back-pet" id="btn-back-from-gallery">↩ 戻る</button>
+          <div class="mint-action">
+            <button class="btn-mint" id="btn-mint-nft">
+              ✨ 集めた星で空に還す (0.00001 XLM)
+            </button>
           </div>
         </div>
 
-        <div class="speaker-grill">
-          <span></span><span></span><span></span><span></span>
+        <!-- 星座美術館（ギャラリー）画面 -->
+        <div class="lcd-view hidden" id="view-gallery">
+          <div class="gallery-title">🏛️ 永世星座ギャラリー</div>
+          <div class="gallery-grid" id="gallery-grid">
+            <div class="empty-gallery">まだ夜空に還った星の子はいません。<br>Aボタンで星をあげて育ててね！</div>
+          </div>
+          <button class="btn-back-pet" id="btn-back-from-gallery">↩ 観測画面へ戻る</button>
         </div>
       </div>
 
-      <!-- 物理ボタン (A, B, C) -->
-      <div class="buttons-row">
-        <div class="btn-group">
-          <button class="tamagotchi-btn" id="btn-a" aria-label="Aボタン: エサ"></button>
-          <span class="btn-label">A: エサ ⭐</span>
-        </div>
-        <div class="btn-group btn-group-main">
-          <button class="tamagotchi-btn" id="btn-b" aria-label="Bボタン: お茶会"></button>
-          <span class="btn-label">B: お茶会 ☕</span>
-        </div>
-        <div class="btn-group">
-          <button class="tamagotchi-btn" id="btn-c" aria-label="Cボタン: 星座録"></button>
-          <span class="btn-label">C: 星座 🌌</span>
-        </div>
-      </div>
+      <!-- 操作コントロールパネル（モダン・フラットな端末キー） -->
+      <nav class="terminal-controls">
+        <button class="control-btn" id="btn-a">
+          <span class="btn-icon">⭐</span>
+          <span class="btn-text">[A] エサ</span>
+        </button>
+        <button class="control-btn btn-highlight" id="btn-b">
+          <span class="btn-icon">☕</span>
+          <span class="btn-text">[B] お茶会</span>
+        </button>
+        <button class="control-btn" id="btn-c">
+          <span class="btn-icon">🌌</span>
+          <span class="btn-text">[C] 星座録</span>
+        </button>
+      </nav>
 
-      <div class="shell-footer">
-        <span>© 2026 Mizuku Hiiragi • Stellar & Soroban</span>
-      </div>
+      <footer class="terminal-footer">
+        <span>© 2026 Mizuku Hiiragi • Non-custodial StarPet Companion</span>
+      </footer>
     </div>
   </main>
 
