@@ -1,0 +1,559 @@
+:root {
+  --shell-primary: #7b5ea7;
+  --shell-secondary: #9a7dc7;
+  --shell-shadow: #5a3c86;
+  --lcd-bg: #8ba888;
+  --lcd-pixel-dark: #1b2e1b;
+  --lcd-pixel-shadow: #7a9777;
+  --gold: #ffd166;
+  --cyan: #38bdf8;
+  --pink: #ff70a6;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+body {
+  background: #0d0e15;
+  color: #f1f5f9;
+  font-family: 'DotGothic16', monospace, sans-serif;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  overflow-x: hidden;
+  position: relative;
+}
+
+/* 背景の星屑 */
+.stars-bg {
+  position: fixed;
+  inset: 0;
+  background-image: 
+    radial-gradient(1.5px 1.5px at 20px 30px, #ffffff, rgba(0,0,0,0)),
+    radial-gradient(1px 1px at 80px 120px, #ffd166, rgba(0,0,0,0)),
+    radial-gradient(2px 2px at 150px 200px, #38bdf8, rgba(0,0,0,0)),
+    radial-gradient(1px 1px at 260px 90px, #ff70a6, rgba(0,0,0,0)),
+    radial-gradient(2px 2px at 320px 280px, #ffffff, rgba(0,0,0,0));
+  background-repeat: repeat;
+  background-size: 350px 350px;
+  opacity: 0.6;
+  z-index: 0;
+  animation: twinkle 8s ease-in-out infinite alternate;
+}
+
+@keyframes twinkle {
+  from { opacity: 0.4; }
+  to { opacity: 0.8; }
+}
+
+.game-wrapper {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* キーチェーンリング */
+.keychain-hole {
+  position: relative;
+  width: 32px;
+  height: 24px;
+  margin-bottom: -10px;
+  z-index: 2;
+}
+
+.chain-ring {
+  width: 24px;
+  height: 24px;
+  border: 4px solid #b0c4de;
+  border-radius: 50%;
+  margin: 0 auto;
+  box-shadow: inset 0 2px 4px rgba(0,0,0,0.4), 0 2px 4px rgba(0,0,0,0.5);
+}
+
+.chain-link {
+  width: 12px;
+  height: 16px;
+  border: 3px solid #b0c4de;
+  border-radius: 8px;
+  margin: -6px auto 0;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.4);
+}
+
+/* たまごっち本体シェル */
+.tamagotchi-shell {
+  width: 340px;
+  background: radial-gradient(circle at 40% 30%, var(--shell-secondary), var(--shell-primary) 70%, var(--shell-shadow) 100%);
+  border-radius: 50% 50% 45% 45% / 60% 60% 40% 40%;
+  padding: 30px 24px 34px;
+  box-shadow: 
+    inset 0 6px 12px rgba(255,255,255,0.4),
+    inset 0 -8px 16px rgba(0,0,0,0.6),
+    0 18px 36px rgba(0,0,0,0.8),
+    0 0 40px rgba(123, 94, 167, 0.4);
+  border: 3px solid rgba(255,255,255,0.15);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+}
+
+.shell-brand {
+  text-align: center;
+  margin-bottom: 12px;
+}
+
+.brand-sub {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 7px;
+  color: rgba(255,255,255,0.7);
+  letter-spacing: 1.5px;
+  display: block;
+  margin-bottom: 4px;
+}
+
+.brand-title {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 15px;
+  color: #fff;
+  text-shadow: 0 2px 4px rgba(0,0,0,0.6), 0 0 10px rgba(255, 209, 102, 0.7);
+}
+
+/* スクリーン枠 */
+.screen-frame {
+  width: 100%;
+  background: #252836;
+  border-radius: 20px;
+  padding: 12px;
+  box-shadow: 
+    inset 0 4px 10px rgba(0,0,0,0.8),
+    0 2px 4px rgba(255,255,255,0.2);
+  border: 2px solid #1a1c26;
+  position: relative;
+}
+
+.screen-header-icons {
+  display: flex;
+  justify-content: space-around;
+  margin-bottom: 6px;
+  font-size: 14px;
+  opacity: 0.6;
+}
+
+.icon-indicator.active {
+  opacity: 1;
+  filter: drop-shadow(0 0 6px var(--gold));
+  transform: scale(1.2);
+}
+
+/* ドット液晶画面 */
+.lcd-screen {
+  background: var(--lcd-bg);
+  border: 4px solid #1a221a;
+  border-radius: 8px;
+  height: 250px;
+  box-shadow: inset 0 3px 8px rgba(0,0,0,0.5);
+  position: relative;
+  overflow: hidden;
+  color: var(--lcd-pixel-dark);
+}
+
+/* 液晶走査線 */
+.scanlines {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.15) 50%);
+  background-size: 100% 4px;
+  pointer-events: none;
+  z-index: 10;
+}
+
+.lcd-view {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  padding: 8px;
+}
+
+.lcd-view.hidden {
+  display: none !important;
+}
+
+.lcd-status-bar {
+  display: flex;
+  justify-content: space-between;
+  font-size: 11px;
+  font-weight: bold;
+  border-bottom: 1px dashed var(--lcd-pixel-dark);
+  padding-bottom: 4px;
+  margin-bottom: 6px;
+}
+
+/* ペットステージ */
+.pet-stage {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
+
+#pet-canvas {
+  image-rendering: pixelated;
+  filter: drop-shadow(1px 2px 0px var(--lcd-pixel-shadow));
+  transition: transform 0.1s;
+}
+
+/* 吹き出し */
+.speech-bubble {
+  position: absolute;
+  top: 6px;
+  right: 12px;
+  background: var(--lcd-pixel-dark);
+  color: var(--lcd-bg);
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-size: 11px;
+  font-weight: bold;
+  opacity: 0;
+  transform: translateY(4px);
+  transition: all 0.2s ease;
+  pointer-events: none;
+}
+
+.speech-bubble.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* 落下するエサ（星） */
+.falling-food {
+  position: absolute;
+  top: -20px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 20px;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.falling-food.fall {
+  animation: foodFall 0.8s ease-in forwards;
+}
+
+@keyframes foodFall {
+  0% { top: 0px; opacity: 1; }
+  80% { top: 60px; opacity: 1; transform: translateX(-50%) scale(1.1); }
+  100% { top: 70px; opacity: 0; transform: translateX(-50%) scale(0.4); }
+}
+
+/* お茶会のゲスト星の子 */
+.guest-pet {
+  position: absolute;
+  left: 20px;
+  bottom: 12px;
+  width: 32px;
+  height: 32px;
+  background-size: contain;
+  background-repeat: no-repeat;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.guest-pet.visiting {
+  opacity: 1;
+}
+
+/* メーター */
+.lcd-gauges {
+  border-top: 1px dashed var(--lcd-pixel-dark);
+  padding-top: 5px;
+  font-size: 10px;
+  font-weight: bold;
+}
+
+.gauge-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 3px;
+}
+
+.gauge-bar {
+  width: 140px;
+  height: 8px;
+  border: 1px solid var(--lcd-pixel-dark);
+  padding: 1px;
+  background: var(--lcd-bg);
+}
+
+.gauge-fill {
+  height: 100%;
+  background: var(--lcd-pixel-dark);
+  transition: width 0.3s ease;
+}
+
+.gauge-fill.gauge-growth {
+  background: repeating-linear-gradient(45deg, var(--lcd-pixel-dark), var(--lcd-pixel-dark) 4px, var(--lcd-bg) 4px, var(--lcd-bg) 6px);
+}
+
+/* スピーカー */
+.speaker-grill {
+  display: flex;
+  justify-content: flex-end;
+  gap: 5px;
+  margin-top: 8px;
+  padding-right: 6px;
+}
+
+.speaker-grill span {
+  width: 5px;
+  height: 5px;
+  background: #111319;
+  border-radius: 50%;
+  box-shadow: inset 0 1px 2px rgba(0,0,0,0.8);
+}
+
+/* 物理ボタン */
+.buttons-row {
+  display: flex;
+  justify-content: space-between;
+  width: 85%;
+  margin-top: 24px;
+  padding: 0 10px;
+}
+
+.btn-group {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.btn-group-main {
+  transform: translateY(12px);
+}
+
+.tamagotchi-btn {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 30%, #ffd166, #e5a93b 70%, #b88220 100%);
+  border: none;
+  box-shadow: 
+    0 6px 12px rgba(0,0,0,0.6),
+    inset 0 3px 5px rgba(255,255,255,0.7),
+    inset 0 -4px 6px rgba(0,0,0,0.4);
+  cursor: pointer;
+  outline: none;
+  transition: all 0.08s ease;
+}
+
+.tamagotchi-btn:active {
+  transform: translateY(4px);
+  box-shadow: 
+    0 2px 4px rgba(0,0,0,0.7),
+    inset 0 1px 3px rgba(255,255,255,0.4),
+    inset 0 -2px 4px rgba(0,0,0,0.5);
+}
+
+.btn-label {
+  margin-top: 8px;
+  font-size: 11px;
+  font-weight: bold;
+  color: #fff;
+  text-shadow: 0 1px 3px rgba(0,0,0,0.8);
+}
+
+.shell-footer {
+  margin-top: 26px;
+  font-size: 9px;
+  color: rgba(255,255,255,0.6);
+  letter-spacing: 0.5px;
+}
+
+/* 旅立ち＆手書きNFT画面のスタイル */
+#view-ascend {
+  background: #0f172a;
+  color: #f8fafc;
+  border-radius: 4px;
+  overflow-y: auto;
+  align-items: center;
+  padding: 10px 6px;
+  text-align: center;
+}
+
+.ascend-title {
+  font-size: 12px;
+  font-weight: bold;
+  color: var(--gold);
+  margin-bottom: 4px;
+}
+
+.ascend-desc {
+  font-size: 9px;
+  color: #94a3b8;
+  margin-bottom: 8px;
+  line-height: 1.3;
+}
+
+.canvas-container {
+  border: 2px solid #334155;
+  border-radius: 8px;
+  background: #020617;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.8);
+  margin-bottom: 8px;
+  cursor: crosshair;
+}
+
+#nft-canvas {
+  width: 200px;
+  height: 250px;
+  display: block;
+}
+
+.canvas-tools {
+  display: flex;
+  justify-content: space-between;
+  width: 200px;
+  margin-bottom: 8px;
+  align-items: center;
+}
+
+.color-picker {
+  display: flex;
+  gap: 4px;
+}
+
+.color-btn {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  border: 1px solid #ffffff;
+  cursor: pointer;
+  padding: 0;
+}
+
+.color-btn.active {
+  transform: scale(1.3);
+  box-shadow: 0 0 6px #fff;
+}
+
+.action-buttons {
+  display: flex;
+  gap: 4px;
+}
+
+.tool-btn {
+  font-size: 9px;
+  padding: 2px 6px;
+  border-radius: 4px;
+  border: 1px solid #475569;
+  background: #1e293b;
+  color: #f1f5f9;
+  cursor: pointer;
+}
+
+.btn-mint {
+  width: 200px;
+  background: linear-gradient(135deg, #ffd166, #f39c12);
+  color: #0f172a;
+  font-weight: bold;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 6px;
+  font-size: 10px;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(255, 209, 102, 0.4);
+  transition: all 0.2s;
+}
+
+.btn-mint:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 16px rgba(255, 209, 102, 0.6);
+}
+
+/* ギャラリー画面 */
+#view-gallery {
+  background: #0f172a;
+  color: #f8fafc;
+  overflow-y: auto;
+  align-items: center;
+}
+
+.gallery-title {
+  font-size: 13px;
+  font-weight: bold;
+  color: var(--cyan);
+  margin-bottom: 10px;
+}
+
+.gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 8px;
+  width: 100%;
+  padding: 4px;
+}
+
+.gallery-card {
+  background: #1e293b;
+  border: 1px solid #334155;
+  border-radius: 6px;
+  padding: 6px;
+  text-align: center;
+}
+
+.gallery-card img {
+  width: 100%;
+  border-radius: 4px;
+  margin-bottom: 4px;
+}
+
+.gallery-card-name {
+  font-size: 9px;
+  font-weight: bold;
+  color: var(--gold);
+}
+
+.empty-gallery {
+  grid-column: span 2;
+  font-size: 11px;
+  color: #94a3b8;
+  padding: 40px 10px;
+  text-align: center;
+  line-height: 1.5;
+}
+
+.btn-back-pet {
+  margin-top: 10px;
+  padding: 4px 12px;
+  background: #334155;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  font-size: 10px;
+  cursor: pointer;
+}
+
+/* サウンドボタン */
+.sound-toggle {
+  position: fixed;
+  bottom: 16px;
+  right: 16px;
+  background: rgba(30, 41, 59, 0.8);
+  border: 1px solid #475569;
+  color: #94a3b8;
+  padding: 8px 14px;
+  border-radius: 20px;
+  font-size: 11px;
+  cursor: pointer;
+  backdrop-filter: blur(8px);
+}
